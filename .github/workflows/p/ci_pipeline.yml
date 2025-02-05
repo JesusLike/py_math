@@ -1,0 +1,30 @@
+name: Quality checks on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+      name: test and build package
+      runs-on: ubuntu-22.04
+      container: python:3.9-slim
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            ref: master
+
+        - name: install dependencies
+          run: |
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+        - name: lint
+          run: |
+            pylint --output-format=text:lint-report.txt mathlib/
+
+        - name: test
+          run: |
+            pytest --cov=mathlib --cov-fail-under=90 --cov-report=html \
+              -v --junit-xml=tests-report.xml
