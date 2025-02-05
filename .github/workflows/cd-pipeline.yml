@@ -1,0 +1,43 @@
+name: CD pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+      name: deploy to testpypi
+      runs-on: ubuntu-22.04
+      container: python:3.9-slim
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            ref: master
+
+        - name: install dependencies
+          run: |
+            pip install --upgrade pip
+            pip intall -r requirements.txt
+
+        - name: cleanup
+          run: |
+            rm -rf check-reports
+            rm -rf build
+            rm -rf dist
+            rm -rf jlmathlib.egg-info
+            mkdir check-reports
+
+        - name: lint
+          run: |
+            pylint --output-format=text:check-reports/lint-report.txt mathlib/
+
+        - name: test
+          run: |
+            pytest --cov=mathlib --cov-fail-under=90 --cov-report=term-missing --cov-report=html \
+              -v --junit-xml=check-reports/tests-report.xml
+
+        - name: build
+          run: |
+            python setup.py sdist bdist_wheel
+            
