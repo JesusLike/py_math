@@ -1,0 +1,5 @@
+
+# Quality control
+pytest
+pytest-cov
+pylint
