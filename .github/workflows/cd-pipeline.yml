@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-      name: deploy to testpypi
+      name: test and build package
       runs-on: ubuntu-22.04
       container: python:3.9-slim
       steps:
@@ -18,7 +18,7 @@ jobs:
         - name: install dependencies
           run: |
             pip install --upgrade pip
-            pip intall -r requirements.txt
+            pip install -r requirements.txt
 
         - name: cleanup
           run: |
