@@ -1,5 +1,9 @@
-
 # Quality control
 pytest
 pytest-cov
 pylint
+
+# Package building
+setuptools
+wheel
+twine
