@@ -12,4 +12,4 @@ mkdir check-reports
 pylint --output-format=text:check-reports/lint-report.txt mathlib/
 
 # run tests with coverage report and junit report
-pytest --cov=mathlib --cov-fail-under=90 --cov-report=term-missing --cov-report=html -v --junit-xml=check-reports/tests-report.xml`
+pytest --cov=mathlib --cov-fail-under=90 --cov-report=term-missing --cov-report=html -v --junit-xml=check-reports/tests-report.xml
