@@ -1,6 +1,15 @@
+#! /usr/bin/bash
+
+# get token from file
+while getopts "t:" arg; do
+  case $arg in
+    t) token=$(cat $OPTARG);;
+  esac
+done
+
 # provide repository credentials
 export TWINE_USERNAME=__token__
-export TWINE_PASSWORD=$(cat secrets/pypi_token)
+export TWINE_PASSWORD=$token
 
 # install requirements
 pip install --upgrade pip
