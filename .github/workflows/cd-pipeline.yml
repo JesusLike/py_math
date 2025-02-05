@@ -30,14 +30,38 @@ jobs:
 
         - name: lint
           run: |
-            pylint --output-format=text:check-reports/lint-report.txt mathlib/
+            pylint --output-format=text:lint-report.txt mathlib/
+
+        - name: upload lint report
+          uses: actions/upload-artifact@v4
+          with:
+            name: lint-report
+            path: lint-report.txt
 
         - name: test
           run: |
-            pytest --cov=mathlib --cov-fail-under=90 --cov-report=term-missing --cov-report=html \
-              -v --junit-xml=check-reports/tests-report.xml
+            pytest --cov=mathlib --cov-fail-under=90 --cov-report=html \
+              -v --junit-xml=tests-report.xml
+
+        - name: upload test report
+          uses: actions/upload-artifact@v4
+          with:
+            name: tests-report
+            path: tests-report.xml
+
+        - name: upload coverage report
+          uses: actions/upload-artifact@v4
+          with:
+            name: coverage-report
+            path: htmlcov
 
         - name: build
           run: |
             python setup.py sdist bdist_wheel
+
+        - name: upload build result
+          uses: actions/upload-artifact@v4
+          with:
+            name: dist
+            path: dist
             
