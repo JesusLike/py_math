@@ -25,5 +25,5 @@ class Vector2:
         '''
         Addition of two 2D vectors
         '''
-        return Vector2(self.x() + other.x(), self.y() + other.y())
+        return Vector2(self.x() - other.x(), self.y() + other.y())
     
