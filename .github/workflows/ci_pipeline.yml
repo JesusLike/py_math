@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  build:
-      name: test and build package
+  test:
+      name: test
       runs-on: ubuntu-22.04
       container: python:3.9-slim
       steps:
@@ -19,11 +19,24 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
 
-        - name: lint
-          run: |
-            pylint --output-format=text:lint-report.txt mathlib/
-
         - name: test
           run: |
             pytest --cov=mathlib --cov-fail-under=90 --cov-report=html \
               -v --junit-xml=tests-report.xml
+
+  lint:
+    name: lint
+    runs-on: ubuntu-22.04
+    container: python:3.9-slim
+    steps:
+        - name: checkout
+          uses: actions/checkout@v4
+
+        - name: install dependencies
+          run: |
+            pip install --upgrade pip
+            pip install -r requirements.txt
+
+        - name: lint
+          run: |
+            pylint --output-format=text:lint-report.txt mathlib/
