@@ -27,3 +27,12 @@ jobs:
           run: |
             pytest --cov=mathlib --cov-fail-under=90 --cov-report=html \
               -v --junit-xml=tests-report.xml
+
+        - name: test report
+          uses: dorny/test-reporter@v1
+          if: failure()
+          with:
+            name: pytests
+            path: tests-report.xml
+            reporter: jest-junit
+            
