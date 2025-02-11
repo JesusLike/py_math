@@ -32,4 +32,5 @@ jobs:
           uses: mikepenz/action-junit-report@v5
           if: success() || failure()
           with:
+            token: ${{ secrets.TEST_REPORTS_TOKEN }}
             report_paths: 'tests-report.xml'
